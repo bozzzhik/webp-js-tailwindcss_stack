@@ -6,6 +6,9 @@ const path = require('path')
 module.exports = {
   mode: 'development',
   watch: true,
+  devServer: {
+    watchFiles: ['src/**/*']
+  },
   entry: { index: './src/index.js' },
   output: {
     path: path.resolve(__dirname, 'docs'),
@@ -27,6 +30,11 @@ module.exports = {
       {
         test: /\.html$/i,
         loader: 'html-loader'
+      },
+      {
+        test: /\.css$/i,
+        include: path.resolve(__dirname, 'src'),
+        use: ['style-loader', 'css-loader', 'postcss-loader']
       },
       {
         resourceQuery: /raw/,
