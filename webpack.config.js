@@ -1,6 +1,4 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 
 const webpack = require('webpack')
 const path = require('path')
@@ -21,26 +19,10 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
+            presets: ['@babel/preset-env'],
             plugins: ['@babel/plugin-proposal-class-properties']
           }
         }
-      },
-      {
-        test: /\.(sa|sc|c)ss$/i,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: [['postcss-preset-env']]
-              }
-            }
-          },
-          'sass-loader'
-        ]
       },
       {
         test: /\.html$/i,
@@ -56,30 +38,15 @@ module.exports = {
         generator: {
           filename: 'images/[hash][ext][query]'
         }
-      },
-      {
-        test: /\.(ttf|otf|woff|woff2)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'fonts/[name].[ext]'
-        }
       }
     ]
   },
   plugins: [
-    new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css'
-    }),
-
     new HtmlWebpackPlugin({
       hash: true,
       scriptLoading: 'blocking',
       template: './src/index.html',
       filename: './index.html'
     })
-  ],
-  optimization: {
-    minimizer: [new CssMinimizerPlugin()]
-  }
+  ]
 }
